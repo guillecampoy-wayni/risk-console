@@ -46,11 +46,13 @@ GET /api/risk/customers?userStatus=BLOCKED&accountStatus=ACTIVE,FROZEN,DISABLED,
 
 El backend:
 
-1. Consulta usuarios en Pomelo filtrando por estado.
-2. Para cada usuario, consulta cuentas por `filter[user_id]` y `filter[country]`.
+1. En modo productivo consulta usuarios en Pomelo filtrando por estado.
+2. Para cada usuario, en modo productivo consulta cuentas por `filter[user_id]` y `filter[country]`.
 3. Normaliza la información.
 4. Devuelve un reporte apto para UI.
 5. Opcionalmente persiste snapshot para auditoría, exportación y trazabilidad.
+
+Para avanzar el prototipo sin credenciales reales, el modo desarrollo entrega datos representativos desde memoria y respeta los mismos filtros de `userStatus`, `accountStatus` y `country`.
 
 ## Modelo de reporte
 
@@ -101,12 +103,43 @@ VITE_INTERNAL_API_KEY=dev-local-key
 
 ## Ejecución local
 
+### Backend en modo desarrollo
+
+Usar este modo para trabajar el frontend sin depender de Pomelo ni de credenciales externas. Activa el perfil Spring `dev`, que reemplaza el gateway HTTP real por datos representativos en memoria.
+
+```bash
+docker compose up -d postgres
+cd backend
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+Consulta de ejemplo:
+
+```bash
+curl -H 'X-Internal-Api-Key: dev-local-key' \
+  'http://localhost:8080/api/risk/customers?userStatus=BLOCKED&accountStatus=FROZEN,DISABLED&country=ARG&page=1&pageSize=50'
+```
+
+### Backend en modo productivo
+
+El perfil por defecto es `prod`. Este modo usa `PomeloGateway` y requiere credenciales válidas para llamar a Pomelo.
+
 ```bash
 docker compose up -d postgres
 cd backend
 mvn spring-boot:run
+```
 
-cd ../frontend
+También puede declararse explícitamente:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
+```
+
+### Frontend
+
+```bash
+cd frontend
 npm install
 npm run dev
 ```
