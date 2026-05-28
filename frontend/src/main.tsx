@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import {
+  ACCOUNT_STATUS_OPTIONS,
+  DEFAULT_ACCOUNT_STATUSES,
+  buildAccountStatusParam,
+  toggleAccountStatus
+} from './accountStatusFilters.js';
+import './design-system.css';
 import './styles.css';
 
 type AccountRiskDetail = {
@@ -31,12 +38,13 @@ const internalApiKey = import.meta.env.VITE_INTERNAL_API_KEY ?? 'dev-local-key';
 function App() {
   const [rows, setRows] = useState<CustomerRiskReport[]>([]);
   const [userStatus, setUserStatus] = useState('BLOCKED');
-  const [accountStatus, setAccountStatus] = useState('ACTIVE,FROZEN,DISABLED,DELETED');
+  const [selectedAccountStatuses, setSelectedAccountStatuses] = useState<string[]>(DEFAULT_ACCOUNT_STATUSES);
   const [loading, setLoading] = useState(false);
 
   async function load() {
     setLoading(true);
     try {
+      const accountStatus = buildAccountStatusParam(selectedAccountStatuses);
       const params = new URLSearchParams({ userStatus, accountStatus, country: 'ARG', page: '1', pageSize: '50' });
       const response = await fetch(`${apiBaseUrl}/api/risk/customers?${params.toString()}`, {
         headers: { 'X-Internal-Api-Key': internalApiKey }
@@ -66,10 +74,21 @@ function App() {
             <option value="ACTIVE,BLOCKED">ACTIVE + BLOCKED</option>
           </select>
         </label>
-        <label>
-          Cuentas
-          <input value={accountStatus} onChange={e => setAccountStatus(e.target.value)} />
-        </label>
+        <fieldset className="account-status-filter">
+          <legend>Cuentas</legend>
+          <div className="checkbox-group">
+            {ACCOUNT_STATUS_OPTIONS.map(status => (
+              <label className="checkbox-option" key={status}>
+                <input
+                  type="checkbox"
+                  checked={selectedAccountStatuses.includes(status)}
+                  onChange={() => setSelectedAccountStatuses(current => toggleAccountStatus(current, status))}
+                />
+                <span>{status}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
         <button onClick={() => void load()} disabled={loading}>{loading ? 'Cargando...' : 'Buscar'}</button>
       </section>
 
