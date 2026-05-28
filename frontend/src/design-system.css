@@ -117,6 +117,18 @@ textarea:focus-visible {
   outline-offset: 1px;
 }
 
+.btn-outline {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+  background: var(--color-surface);
+}
+
 button:disabled {
   border-color: var(--ds-color-gray-500);
   background: var(--ds-color-gray-500);

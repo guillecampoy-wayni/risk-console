@@ -130,6 +130,44 @@ td strong {
   font-weight: 800;
 }
 
+.row-expanded {
+  background: color-mix(in srgb, var(--ds-color-crudo-500) 72%, var(--ds-color-white-500));
+}
+
+.row-expanded td {
+  border-bottom-color: transparent;
+}
+
+.detail-row td {
+  padding: 0 16px 16px;
+  background: color-mix(in srgb, var(--ds-color-crudo-500) 72%, var(--ds-color-white-500));
+}
+
+.account-detail dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--ds-space-2) var(--ds-space-4);
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--ds-radius-md);
+  background: var(--color-surface);
+}
+
+.account-detail dt {
+  color: var(--color-text-muted);
+  font-size: var(--ds-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.account-detail dd {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--ds-font-size-sm);
+}
+
 @media (max-width: 760px) {
   .page {
     width: min(100% - 20px, 1180px);

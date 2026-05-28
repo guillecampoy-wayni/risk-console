@@ -11,10 +11,7 @@ export type SearchFilters = {
   pageSize: number;
 };
 
-export async function fetchRiskReport(
-  filters: SearchFilters,
-  signal?: AbortSignal,
-): Promise<CustomerRiskReport[]> {
+function buildUrl(filters: SearchFilters): string {
   const params = new URLSearchParams({
     userStatus: filters.userStatus,
     accountStatus: filters.accountStatus,
@@ -22,8 +19,14 @@ export async function fetchRiskReport(
     page: String(filters.page),
     pageSize: String(filters.pageSize),
   });
+  return `${API_BASE}/api/risk/customers?${params.toString()}`;
+}
 
-  const response = await fetch(`${API_BASE}/api/risk/customers?${params.toString()}`, {
+export async function fetchRiskReport(
+  filters: SearchFilters,
+  signal?: AbortSignal,
+): Promise<CustomerRiskReport[]> {
+  const response = await fetch(buildUrl(filters), {
     headers: { 'X-Internal-Api-Key': INTERNAL_API_KEY },
     signal,
   });
@@ -33,4 +36,19 @@ export async function fetchRiskReport(
   }
 
   return response.json() as Promise<CustomerRiskReport[]>;
+}
+
+export async function downloadCsv(filters: SearchFilters): Promise<Blob> {
+  const response = await fetch(buildUrl(filters), {
+    headers: {
+      'X-Internal-Api-Key': INTERNAL_API_KEY,
+      Accept: 'text/plain',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`CSV export error ${response.status}`);
+  }
+
+  return response.blob();
 }

@@ -4,7 +4,7 @@ import {
   buildAccountStatusParam,
   toggleAccountStatus,
 } from '../accountStatusFilters';
-import { fetchRiskReport } from '../api/riskReportApi';
+import { downloadCsv, fetchRiskReport } from '../api/riskReportApi';
 import FilterBar from '../components/FilterBar';
 import Header from '../components/Header';
 import ReportTable from '../components/ReportTable';
@@ -18,6 +18,14 @@ export default function RiskReportPage() {
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
+  const filters = (): { userStatus: string; accountStatus: string; country: string; page: number; pageSize: number } => ({
+    userStatus,
+    accountStatus: buildAccountStatusParam(selectedAccountStatuses),
+    country: 'ARG',
+    page: 1,
+    pageSize: 50,
+  });
+
   const load = useCallback(async () => {
     abortRef.current?.abort();
     const controller = new AbortController();
@@ -26,11 +34,7 @@ export default function RiskReportPage() {
     setLoading(true);
     setError(null);
     try {
-      const accountStatus = buildAccountStatusParam(selectedAccountStatuses);
-      const data = await fetchRiskReport(
-        { userStatus, accountStatus, country: 'ARG', page: 1, pageSize: 50 },
-        controller.signal,
-      );
+      const data = await fetchRiskReport(filters(), controller.signal);
       if (!controller.signal.aborted) {
         setRows(data);
       }
@@ -41,6 +45,22 @@ export default function RiskReportPage() {
       if (!controller.signal.aborted) {
         setLoading(false);
       }
+    }
+  }, [userStatus, selectedAccountStatuses]);
+
+  const handleExportCsv = useCallback(async () => {
+    try {
+      const blob = await downloadCsv(filters());
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `risk-report-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al exportar CSV');
     }
   }, [userStatus, selectedAccountStatuses]);
 
@@ -61,6 +81,7 @@ export default function RiskReportPage() {
           setSelectedAccountStatuses(current => toggleAccountStatus(current, status))
         }
         onSearch={load}
+        onExportCsv={handleExportCsv}
       />
       <ReportTable rows={rows} loading={loading} error={error} />
     </main>

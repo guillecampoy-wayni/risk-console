@@ -1,6 +1,6 @@
-# Pomelo Risk Console Starter
+# Risk Console
 
-Aplicación inicial para consolidar usuarios y cuentas digitales de Pomelo, orientada a analistas de riesgo/fraude.
+Prototipo inicial para consolidar usuarios y cuentas digitales de Pomelo, orientada a analistas de riesgo/fraude.
 
 ## Objetivo
 

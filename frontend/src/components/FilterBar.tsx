@@ -10,6 +10,7 @@ type FilterBarProps = {
   onUserStatusChange: (value: string) => void;
   onAccountStatusToggle: (status: string) => void;
   onSearch: () => void;
+  onExportCsv: () => void;
 };
 
 export default function FilterBar({
@@ -19,6 +20,7 @@ export default function FilterBar({
   onUserStatusChange,
   onAccountStatusToggle,
   onSearch,
+  onExportCsv,
 }: FilterBarProps) {
   return (
     <section className="filters">
@@ -47,9 +49,14 @@ export default function FilterBar({
         </div>
       </fieldset>
 
-      <button onClick={onSearch} disabled={loading}>
-        {loading ? 'Cargando...' : 'Buscar'}
-      </button>
+      <div style={{ display: 'flex', gap: 'var(--ds-space-2)' }}>
+        <button onClick={onSearch} disabled={loading}>
+          {loading ? 'Cargando...' : 'Buscar'}
+        </button>
+        <button onClick={onExportCsv} disabled={loading} className="btn-outline">
+          CSV
+        </button>
+      </div>
     </section>
   );
 }
