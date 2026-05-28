@@ -162,14 +162,20 @@ No usar Mockito; crear fakes o stubs propios para tests.
 No agregar GitHub Actions.
 ```
 
-## Estado del prototipo inicial
+## Estado actual del prototipo
 
-El prototipo actual define:
+El prototipo actual tiene implementado:
 
 - Backend Java 21 + Spring Boot 3 orientado a integracion con Pomelo.
 - Frontend React + TypeScript + Vite.
-- Infra local con Docker Compose y PostgreSQL.
+- Infra local con Docker Compose y PostgreSQL (no usado en MVP 1-3; se usa almacenamiento en memoria).
+- MVP 1: reporte de clientes filtrado, exportacion CSV, vista detalle, correlation ID.
+- MVP 2: snapshots on-demand con `SnapshotService` e `InMemorySnapshotRepository`.
+- MVP 3: auditoria automatica de consultas y exportaciones via `AuditWebFilter`, endpoint `GET /api/risk/audit`.
+- 47 tests backend con cobertura >=80% via JaCoCo.
 - ADR inicial de stack en `docs/adr-001-stack.md`.
 - Umbral de cobertura backend versionado con JaCoCo en `backend/pom.xml`.
+
+La persistencia con PostgreSQL (R2DBC) esta planificada para MVP 6. Hasta entonces, snapshots y auditoria usan `ConcurrentHashMap` en memoria, reemplazables por implementaciones con base de datos sin cambiar las interfaces de dominio.
 
 Este estado es suficiente como base inicial siempre que las siguientes evoluciones mantengan tests de intencion, cobertura minima y validacion local antes de publicar ramas remotas.
