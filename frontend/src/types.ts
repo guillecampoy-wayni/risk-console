@@ -20,3 +20,8 @@ export type CustomerRiskReport = {
   userStatus: string;
   accounts: AccountRiskDetail[];
 };
+
+export type Snapshot = {
+  id: string;
+  createdAt: string;
+};

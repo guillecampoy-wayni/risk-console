@@ -1,4 +1,4 @@
-import type { CustomerRiskReport } from '../types';
+import type { CustomerRiskReport, Snapshot } from '../types';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
 const INTERNAL_API_KEY = import.meta.env.VITE_INTERNAL_API_KEY ?? 'dev-local-key';
@@ -36,6 +36,31 @@ export async function fetchRiskReport(
   }
 
   return response.json() as Promise<CustomerRiskReport[]>;
+}
+
+export async function createSnapshot(): Promise<Snapshot> {
+  const response = await fetch(`${API_BASE}/api/risk/snapshots`, {
+    method: 'POST',
+    headers: { 'X-Internal-Api-Key': INTERNAL_API_KEY },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Snapshot error ${response.status}`);
+  }
+
+  return response.json() as Promise<Snapshot>;
+}
+
+export async function listSnapshots(): Promise<Snapshot[]> {
+  const response = await fetch(`${API_BASE}/api/risk/snapshots`, {
+    headers: { 'X-Internal-Api-Key': INTERNAL_API_KEY },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Snapshot list error ${response.status}`);
+  }
+
+  return response.json() as Promise<Snapshot[]>;
 }
 
 export async function downloadCsv(filters: SearchFilters): Promise<Blob> {

@@ -4,11 +4,12 @@ import {
   buildAccountStatusParam,
   toggleAccountStatus,
 } from '../accountStatusFilters';
-import { downloadCsv, fetchRiskReport } from '../api/riskReportApi';
+import { createSnapshot, downloadCsv, fetchRiskReport, listSnapshots } from '../api/riskReportApi';
 import FilterBar from '../components/FilterBar';
 import Header from '../components/Header';
 import ReportTable from '../components/ReportTable';
-import type { CustomerRiskReport } from '../types';
+import SnapshotHistory from '../components/SnapshotHistory';
+import type { CustomerRiskReport, Snapshot } from '../types';
 
 export default function RiskReportPage() {
   const [rows, setRows] = useState<CustomerRiskReport[]>([]);
@@ -16,6 +17,8 @@ export default function RiskReportPage() {
   const [selectedAccountStatuses, setSelectedAccountStatuses] = useState<string[]>(DEFAULT_ACCOUNT_STATUSES);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   const filters = (): { userStatus: string; accountStatus: string; country: string; page: number; pageSize: number } => ({
@@ -48,6 +51,29 @@ export default function RiskReportPage() {
     }
   }, [userStatus, selectedAccountStatuses]);
 
+  const loadSnapshots = useCallback(async () => {
+    try {
+      const data = await listSnapshots();
+      setSnapshots(data);
+    } catch {
+      // snapshots no disponibles no rompen la experiencia
+    }
+  }, []);
+
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setError(null);
+    try {
+      await createSnapshot();
+      await loadSnapshots();
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al refrescar datos');
+    } finally {
+      setRefreshing(false);
+    }
+  }, [load, loadSnapshots]);
+
   const handleExportCsv = useCallback(async () => {
     try {
       const blob = await downloadCsv(filters());
@@ -66,8 +92,9 @@ export default function RiskReportPage() {
 
   useEffect(() => {
     void load();
+    void loadSnapshots();
     return () => abortRef.current?.abort();
-  }, [load]);
+  }, [load, loadSnapshots]);
 
   return (
     <main className="page">
@@ -83,7 +110,18 @@ export default function RiskReportPage() {
         onSearch={load}
         onExportCsv={handleExportCsv}
       />
-      <ReportTable rows={rows} loading={loading} error={error} />
+      <div className="main-layout">
+        <div className="main-content">
+          <ReportTable rows={rows} loading={loading} error={error} />
+        </div>
+        <aside className="main-sidebar">
+          <SnapshotHistory
+            snapshots={snapshots}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
+        </aside>
+      </div>
     </main>
   );
 }
