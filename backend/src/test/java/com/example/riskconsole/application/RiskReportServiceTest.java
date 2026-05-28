@@ -1,11 +1,10 @@
 package com.example.riskconsole.application;
 
 import com.example.riskconsole.infrastructure.pomelo.PomeloAccountDto;
-import com.example.riskconsole.infrastructure.pomelo.PomeloGateway;
+import com.example.riskconsole.infrastructure.pomelo.PomeloDataGateway;
 import com.example.riskconsole.infrastructure.pomelo.PomeloPageResponse;
 import com.example.riskconsole.infrastructure.pomelo.PomeloUserDto;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -95,13 +94,9 @@ class RiskReportServiceTest {
         );
     }
 
-    private static class FakePomeloGateway extends PomeloGateway {
+    private static class FakePomeloGateway implements PomeloDataGateway {
         private PomeloPageResponse<PomeloUserDto> usersResponse;
         private PomeloPageResponse<PomeloAccountDto> accountsResponse;
-
-        private FakePomeloGateway() {
-            super(WebClient.builder().build());
-        }
 
         @Override
         public Mono<PomeloPageResponse<PomeloUserDto>> searchUsers(String userStatus, int page, int pageSize) {

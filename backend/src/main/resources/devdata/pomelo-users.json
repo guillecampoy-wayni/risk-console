@@ -1,0 +1,38 @@
+[
+  {
+    "id": "usr-dev-blocked-1",
+    "name": "Lucia",
+    "surname": "Fernandez",
+    "email": "lucia.fernandez@example.com",
+    "identification_type": "DNI",
+    "identification_value": "30111222",
+    "tax_identification_type": "CUIL",
+    "tax_identification_value": "27301112229",
+    "external_id": "client-dev-001",
+    "status": "BLOCKED"
+  },
+  {
+    "id": "usr-dev-active-1",
+    "name": "Martin",
+    "surname": "Silva",
+    "email": "martin.silva@example.com",
+    "identification_type": "DNI",
+    "identification_value": "28999888",
+    "tax_identification_type": "CUIL",
+    "tax_identification_value": "20289998889",
+    "external_id": "client-dev-002",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "usr-dev-blocked-2",
+    "name": "Ana",
+    "surname": "Gomez",
+    "email": "ana.gomez@example.com",
+    "identification_type": "DNI",
+    "identification_value": "33222111",
+    "tax_identification_type": "CUIL",
+    "tax_identification_value": "27332221119",
+    "external_id": "client-dev-003",
+    "status": "BLOCKED"
+  }
+]

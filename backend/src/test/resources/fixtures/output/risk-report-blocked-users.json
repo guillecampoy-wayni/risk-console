@@ -1,0 +1,57 @@
+[
+  {
+    "userId": "usr-dev-blocked-1",
+    "externalId": "client-dev-001",
+    "fullName": "Lucia Fernandez",
+    "email": "lucia.fernandez@example.com",
+    "identification": "DNI 30111222",
+    "taxIdentification": "CUIL 27301112229",
+    "userStatus": "BLOCKED",
+    "accounts": [
+      {
+        "accountId": "acc-dev-ars-frozen",
+        "country": "ARG",
+        "currency": "ARS",
+        "balance": "982345.12",
+        "accountStatus": "FROZEN",
+        "statusUpdateMotive": "OTHER",
+        "statusUpdateComment": "Revision manual por alerta de riesgo",
+        "statusUpdatedBy": "CLIENT",
+        "updatedAt": "2026-05-20T14:30:00Z"
+      },
+      {
+        "accountId": "acc-dev-usd-disabled",
+        "country": "ARG",
+        "currency": "USD",
+        "balance": "1530.00",
+        "accountStatus": "DISABLED",
+        "statusUpdateMotive": "FRAUD",
+        "statusUpdateComment": "Cuenta deshabilitada durante investigacion",
+        "statusUpdatedBy": "POMELO",
+        "updatedAt": "2026-05-18T09:45:00Z"
+      }
+    ]
+  },
+  {
+    "userId": "usr-dev-blocked-2",
+    "externalId": "client-dev-003",
+    "fullName": "Ana Gomez",
+    "email": "ana.gomez@example.com",
+    "identification": "DNI 33222111",
+    "taxIdentification": "CUIL 27332221119",
+    "userStatus": "BLOCKED",
+    "accounts": [
+      {
+        "accountId": "acc-dev-deleted",
+        "country": "ARG",
+        "currency": "ARS",
+        "balance": "0.00",
+        "accountStatus": "DELETED",
+        "statusUpdateMotive": "CLIENT_REQUEST",
+        "statusUpdateComment": "Cierre solicitado por el cliente",
+        "statusUpdatedBy": "CLIENT",
+        "updatedAt": "2026-05-12T16:20:00Z"
+      }
+    ]
+  }
+]

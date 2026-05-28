@@ -1,0 +1,52 @@
+{
+  "usr-dev-blocked-1": [
+    {
+      "id": "acc-dev-ars-frozen",
+      "country": "ARG",
+      "balance": "982345.12",
+      "status": "FROZEN",
+      "currency": "ARS",
+      "status_update_motive": "OTHER",
+      "status_update_comment": "Revision manual por alerta de riesgo",
+      "status_updated_by": "CLIENT",
+      "updated_at": "2026-05-20T14:30:00Z"
+    },
+    {
+      "id": "acc-dev-usd-disabled",
+      "country": "ARG",
+      "balance": "1530.00",
+      "status": "DISABLED",
+      "currency": "USD",
+      "status_update_motive": "FRAUD",
+      "status_update_comment": "Cuenta deshabilitada durante investigacion",
+      "status_updated_by": "POMELO",
+      "updated_at": "2026-05-18T09:45:00Z"
+    }
+  ],
+  "usr-dev-active-1": [
+    {
+      "id": "acc-dev-active",
+      "country": "ARG",
+      "balance": "43800.50",
+      "status": "ACTIVE",
+      "currency": "ARS",
+      "status_update_motive": null,
+      "status_update_comment": null,
+      "status_updated_by": null,
+      "updated_at": "2026-05-22T11:10:00Z"
+    }
+  ],
+  "usr-dev-blocked-2": [
+    {
+      "id": "acc-dev-deleted",
+      "country": "ARG",
+      "balance": "0.00",
+      "status": "DELETED",
+      "currency": "ARS",
+      "status_update_motive": "CLIENT_REQUEST",
+      "status_update_comment": "Cierre solicitado por el cliente",
+      "status_updated_by": "CLIENT",
+      "updated_at": "2026-05-12T16:20:00Z"
+    }
+  ]
+}

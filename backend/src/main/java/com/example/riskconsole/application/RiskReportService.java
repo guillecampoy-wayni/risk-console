@@ -3,7 +3,7 @@ package com.example.riskconsole.application;
 import com.example.riskconsole.domain.AccountRiskDetail;
 import com.example.riskconsole.domain.CustomerRiskReport;
 import com.example.riskconsole.infrastructure.pomelo.PomeloAccountDto;
-import com.example.riskconsole.infrastructure.pomelo.PomeloGateway;
+import com.example.riskconsole.infrastructure.pomelo.PomeloDataGateway;
 import com.example.riskconsole.infrastructure.pomelo.PomeloUserDto;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -13,9 +13,9 @@ import java.util.List;
 
 @Service
 public class RiskReportService {
-    private final PomeloGateway pomeloGateway;
+    private final PomeloDataGateway pomeloGateway;
 
-    public RiskReportService(PomeloGateway pomeloGateway) {
+    public RiskReportService(PomeloDataGateway pomeloGateway) {
         this.pomeloGateway = pomeloGateway;
     }
 

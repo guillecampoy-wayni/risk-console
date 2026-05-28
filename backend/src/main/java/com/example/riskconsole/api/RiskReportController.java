@@ -21,11 +21,11 @@ public class RiskReportController {
     @GetMapping
     public Flux<CustomerRiskReport> search(
             @RequestHeader(value = "X-Internal-Api-Key", required = false) String internalApiKey,
-            @RequestParam(defaultValue = "BLOCKED") String userStatus,
-            @RequestParam(defaultValue = "ACTIVE,FROZEN,DISABLED,DELETED") String accountStatus,
-            @RequestParam(defaultValue = "ARG") String country,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "50") int pageSize
+            @RequestParam(value = "userStatus", defaultValue = "BLOCKED") String userStatus,
+            @RequestParam(value = "accountStatus", defaultValue = "ACTIVE,FROZEN,DISABLED,DELETED") String accountStatus,
+            @RequestParam(value = "country", defaultValue = "ARG") String country,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "50") int pageSize
     ) {
         return riskReportService.findCustomers(userStatus, accountStatus, country, page, pageSize);
     }

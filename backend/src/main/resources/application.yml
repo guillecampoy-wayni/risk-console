@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: pomelo-risk-console
+  profiles:
+    default: prod
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/risk_console}
     username: ${DATABASE_USER:risk}
