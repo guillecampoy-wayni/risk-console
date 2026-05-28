@@ -1,0 +1,14 @@
+@startuml
+title Pomelo Risk Console - Contexto
+actor "Analista Riesgo/Fraude" as Analyst
+rectangle "Risk Console Frontend\nReact + TS" as FE
+rectangle "Risk Console Backend\nSpring Boot" as BE
+database "PostgreSQL\nSnapshots/Auditoría" as DB
+cloud "Pomelo API" as Pomelo
+
+Analyst --> FE : consulta bloqueados / exporta
+FE --> BE : GET /api/risk/customers
+BE --> Pomelo : GET /users/v1
+BE --> Pomelo : GET /core/accounts/v1
+BE --> DB : guarda snapshot/auditoría
+@enduml

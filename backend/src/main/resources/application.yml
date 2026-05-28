@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pomelo-risk-console
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/risk_console}
+    username: ${DATABASE_USER:risk}
+    password: ${DATABASE_PASSWORD:risk}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+pomelo:
+  base-url: ${POMELO_BASE_URL:https://api.pomelo.la}
+  api-key: ${POMELO_API_KEY:replace-me}
+
+app:
+  internal-api-key: ${APP_INTERNAL_API_KEY:dev-local-key}
